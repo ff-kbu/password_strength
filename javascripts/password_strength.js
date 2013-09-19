@@ -123,8 +123,8 @@ var PasswordStrength = function() {
 
 			case "repetitions":
 				score += -(this.repetitions(this.password, 2) * 4);
-        		score += -(this.repetitions(this.password, 3) * 3);
-        		score += -(this.repetitions(this.password, 4) * 2);
+	        		score += -(this.repetitions(this.password, 3) * 3);
+        			score += -(this.repetitions(this.password, 4) * 2);
 				break;
 		};
 
