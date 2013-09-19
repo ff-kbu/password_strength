@@ -64,7 +64,7 @@ var PasswordStrength = function() {
 				if (this.password.length < this.min_password_length) {
 					score = -100;
 				} else {
-					score = this.password.length * 2;
+					score = this.password.length * 3;
 				}
 				break;
 
@@ -82,25 +82,25 @@ var PasswordStrength = function() {
 
 			case "uppercase_lowercase":
 				if (this.password.match(UPPERCASE_LOWERCASE_RE)) {
-					score = 10;
+					score = 15;
 				}
 				break;
 
 			case "numbers_chars":
 				if (this.password.match(/[a-z]/i) && this.password.match(/[0-9]/)) {
-					score = 10;
+					score = 15;
 				}
 				break;
 
 			case "numbers_symbols":
 				if (this.password.match(/[0-9]/) && this.password.match(SYMBOL_RE)) {
-					score = 10;
+					score = 15;
 				}
 				break;
 
 			case "symbols_chars":
 				if (this.password.match(/[a-z]/i) && this.password.match(SYMBOL_RE)) {
-					score = 10;
+					score = 15;
 				}
 				break;
 
