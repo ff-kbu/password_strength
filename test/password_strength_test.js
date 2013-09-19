@@ -1,7 +1,6 @@
 new Test.Unit.Runner({
 	setup: function() {
 		strength = new PasswordStrength();
-		strength.username = "johndoe";
 		strength.password = "mypass";
 	},
 
@@ -10,9 +9,8 @@ new Test.Unit.Runner({
 
 	// Shortcut
 	testShortcut: function() { with(this) {
-		strength = PasswordStrength.test("johndoe", "mypass");
+		strength = PasswordStrength.test("mypass");
 
-		assertEqual("johndoe", strength.username);
 		assertEqual("mypass", strength.password);
 		assertNotNull(strength.status);
 	}},
@@ -57,19 +55,9 @@ new Test.Unit.Runner({
 		assertEqual("weak", strength.status);
 	}},
 
-	// Password equals to username
-	testPasswordEqualsToUsername: function() { with(this) {
-		strength.username = "johndoe";
-		strength.password = "johndoe";
-		strength.test();
-
-		assertEqual(0, strength.score);
-		assertEqual("weak", strength.status);
-	}},
-
 	// Strong password
 	testStrongPassword: function() { with(this) {
-		strength.password = "^P4ssw0rd$";
+		strength.password = "^P4ssw0rd$In4@";
 		strength.test();
 
 		assertEqual(100, strength.score);
@@ -89,15 +77,15 @@ new Test.Unit.Runner({
 
 	// Good password
 	testGoodPassword: function() { with(this) {
-		strength.password = "12345asdfg";
+		strength.password = "12a45asdfg";
 		strength.test();
 		assertEqual("good", strength.status);
 
-		strength.password = "12345ASDFG";
+		strength.password = "12A45ASDFG";
 		strength.test();
 		assertEqual("good", strength.status);
 
-		strength.password = "12345Aa";
+		strength.password = "12a45AaFUr5";
 		strength.test();
 		assertEqual("good", strength.status);
 	}},
@@ -112,20 +100,6 @@ new Test.Unit.Runner({
 	testPenalizePasswordWithNumbersOnly: function() { with(this) {
 		strength.password = "12345";
     	assertEqual(-15, strength.scoreFor("only_numbers"));
-	}},
-
-	// Penalize password equals to username
-	testPenalizePasswordEqualsToUsername: function() { with(this) {
-	    strength.username = "johndoe";
-	    strength.password = "johndoe";
-	    assertEqual(-100, strength.scoreFor("username"));
-	}},
-
-	// Penalize password with username
-	testPenalizePasswordWithUsername: function() { with(this) {
-		strength.username = "johndoe";
-    	strength.password = "$1234johndoe^";
-    	assertEqual(-15, strength.scoreFor("username"));
 	}},
 
 	// Penalize number sequence
@@ -190,8 +164,8 @@ new Test.Unit.Runner({
 
 	// Password length
 	testPasswordLength: function() { with(this) {
-		strength.password = "12345";
-    	assertEqual(20, strength.scoreFor("password_size"));
+		strength.password = "1234567890";
+    	assertEqual(30, strength.scoreFor("password_size"));
 	}},
 
 	// Password with numbers

@@ -1,13 +1,18 @@
+/*
+	cloned from: https://github.com/fnando/password_strength/
+
+*/
 var PasswordStrength = function() {
 	var MULTIPLE_NUMBERS_RE = /\d.*?\d.*?\d/;
 	var MULTIPLE_SYMBOLS_RE = /[!@#$%^&*?_~].*?[!@#$%^&*?_~]/;
 	var UPPERCASE_LOWERCASE_RE = /([a-z].*[A-Z])|([A-Z].*[a-z])/;
 	var SYMBOL_RE = /[!@#\$%^&*?_~]/;
 
-	this.username = null;
 	this.password = null;
 	this.score = 0;
 	this.status = null;
+	
+	this.min_password_length = 10;
 
 	this.test = function() {
 		this.score = 0;
@@ -24,7 +29,6 @@ var PasswordStrength = function() {
 			this.score += this.scoreFor("symbols_chars");
 			this.score += this.scoreFor("only_chars");
 			this.score += this.scoreFor("only_numbers");
-			this.score += this.scoreFor("username");
 			this.score += this.scoreFor("sequences");
 			this.score += this.scoreFor("repetitions");
 
@@ -36,15 +40,15 @@ var PasswordStrength = function() {
 				this.score = 100;
 			}
 
-			if (this.score < 35) {
+			if (this.score < 50) {
 				this.status = "weak";
 			}
 
-			if (this.score >= 35 && this.score < 70) {
+			if (this.score >= 50 && this.score < 75) {
 				this.status = "good";
 			}
 
-			if (this.score >= 70) {
+			if (this.score >= 75) {
 				this.status = "strong";
 			}
 		}
@@ -57,10 +61,10 @@ var PasswordStrength = function() {
 
 		switch (name) {
 			case "password_size":
-				if (this.password.length < 4) {
+				if (this.password.length < this.min_password_length) {
 					score = -100;
 				} else {
-					score = this.password.length * 4;
+					score = this.password.length * 2;
 				}
 				break;
 
@@ -84,19 +88,19 @@ var PasswordStrength = function() {
 
 			case "numbers_chars":
 				if (this.password.match(/[a-z]/i) && this.password.match(/[0-9]/)) {
-					score = 15;
+					score = 10;
 				}
 				break;
 
 			case "numbers_symbols":
 				if (this.password.match(/[0-9]/) && this.password.match(SYMBOL_RE)) {
-					score = 15;
+					score = 10;
 				}
 				break;
 
 			case "symbols_chars":
 				if (this.password.match(/[a-z]/i) && this.password.match(SYMBOL_RE)) {
-					score = 15;
+					score = 10;
 				}
 				break;
 
@@ -108,14 +112,6 @@ var PasswordStrength = function() {
 
 			case "only_numbers":
 				if (this.password.match(/^\d+$/i)) {
-					score = -15;
-				}
-				break;
-
-			case "username":
-				if (this.password == this.username) {
-					score = -100;
-				} else if (this.password.indexOf(this.username) != -1) {
 					score = -15;
 				}
 				break;
@@ -245,9 +241,8 @@ var PasswordStrength = function() {
 	};
 };
 
-PasswordStrength.test = function(username, password) {
+PasswordStrength.test = function(password) {
 	strength = new PasswordStrength();
-	strength.username = username;
 	strength.password = password;
 	strength.test();
 	return strength;
