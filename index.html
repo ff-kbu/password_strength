@@ -11,19 +11,23 @@
 	passwordInput = document.getElementById("passwordInput");
 	defaultColour = passwordInput.style.background;
 	function check() {
-		strength = new PasswordStrength();
-		strength.password = passwordInput.value;
-		result = strength.test();
-		switch(strength.status){
-			case "good":
-				passwordInput.style.background="yellow";
-				break;			
-			case "strong":
-				passwordInput.style.background="#99FF00"; //helles Gruen
-				break;
-			default:
-				passwordInput.style.background="#FF3A00"; //mittleres Rot
-				break;
+		if(passwordInput.value.length == 0){
+			passwordInput.style.background = defaultColour;
+		} else {
+			strength = new PasswordStrength();
+			strength.password = passwordInput.value;
+			result = strength.test();
+			switch(strength.status){
+				case "good":
+					passwordInput.style.background="yellow";
+					break;			
+				case "strong":
+					passwordInput.style.background="#99FF00"; //helles Gruen
+					break;
+				default:
+					passwordInput.style.background="#FF3A00"; //mittleres Rot
+					break;
+			}
 		}
 	}
 </script>

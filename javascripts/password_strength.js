@@ -64,7 +64,7 @@ var PasswordStrength = function() {
 				if (this.password.length < this.min_password_length) {
 					score = -100;
 				} else {
-					score = this.password.length * 3;
+					score = this.password.length * 4;
 				}
 				break;
 
